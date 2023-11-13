@@ -36,10 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Front"))
         {
-            Debug.Log("1");
             transform.Translate(Vector3.up * upSpeed * 0.6f * Time.deltaTime);
         }
-        //Debug.Log($"X: {movement.x}, Y: {movement.y}, SP: {movement.sqrMagnitude}");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

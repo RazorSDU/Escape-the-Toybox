@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
-public class VideoSync : MonoBehaviour
+public class MapMovement : MonoBehaviour
 {
     [System.Serializable]
     public class PositionRotationKeyframe
@@ -14,16 +15,25 @@ public class VideoSync : MonoBehaviour
         public Vector3 position;
         public Quaternion rotation;
 
+
         public void NormalizeRotation()
         {
             rotation.Normalize();
         }
     }
 
+    float lastExecutionTime = 0.0f;
+
+    public FallingObstacleSpawner FOSpawner;
+
+    public float BPM = 132f;
+    public float FallBeatInterval = 4f;
+
     public Transform targetObject;
     public PositionRotationKeyframe[] keyframes;
     public VideoPlayer videoPlayer;
-    public TextMeshProUGUI currentTimeText; // Reference to the Text component for displaying current time
+    public TextMeshProUGUI currentTimeText;
+    public Button beatChecker;
     public Camera mainCamera; // Reference to the main camera
 
     private int currentKeyframeIndex = 0;
@@ -80,6 +90,22 @@ public class VideoSync : MonoBehaviour
             if (currentTimeText != null)
             {
                 currentTimeText.text = "Current Time: " + currentTime.ToString("F2");
+            }
+
+            float epsilon = 0.3f;
+            float moduloValue = currentTime % (5f / 11f);
+            //Beat Checker
+            if (Mathf.Abs(moduloValue) < epsilon && currentTime - lastExecutionTime > (5f / 11f))
+            {
+                Debug.Log("Beat! " + currentTime);
+                Image image = beatChecker.GetComponent<Image>();
+                image.color = (image.color == Color.red) ? Color.green : Color.red;
+
+                // Update the last execution time
+                lastExecutionTime = currentTime;
+
+                FOSpawner.SpawnFallingObstacle();
+
             }
         }
     }
