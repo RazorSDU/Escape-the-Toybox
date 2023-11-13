@@ -5,37 +5,40 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Speed of movement.
+    public float moveSpeed = 3f; // Speed of movement.
+    public float upSpeed = 4f;
+    public float downSpeed = 1.5f;
+    public float leftSpeed = 2f;
+    public float rightSpeed = 2f;
+
     public Animator animator;
 
-    private void Update()
+    void Start()
     {
-        // Get input values for horizontal and vertical movement.
+        animator = GetComponent<Animator>();
+    }
+
+    void Update()
+    {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        // Calculate the new position based on input and speed.
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0) * moveSpeed * Time.deltaTime;
+        float horizontalSpeed = horizontalInput * (horizontalInput > 0 ? rightSpeed : leftSpeed);
+        float verticalSpeed = verticalInput * (verticalInput > 0 ? upSpeed : downSpeed);
 
-        // Apply the movement to the object's position.
+        Vector3 movement = new Vector3(horizontalSpeed, verticalSpeed, 0) * moveSpeed * Time.deltaTime;
+
         transform.Translate(movement);
 
-        animator.SetFloat("Horizontal", movement.x * 100);
-        animator.SetFloat("Vertical", movement.y * 100);
+        animator.SetFloat("Horizontal", horizontalSpeed * 500);
+        animator.SetFloat("Vertical", verticalSpeed * 500);
         animator.SetFloat("Speed", movement.sqrMagnitude * 100);
 
-        //// Check if the vertical movement is greater than or equal to 1 or smaller than or equal to -1.
-        //if (movement.y * 100 >= 1)
-        //{
-        //    // Set the Speed parameter in the "Movement" Blend Tree to 1.
-        //    animator.SetFloat("Speed", 1f, 0.1f, Time.deltaTime);
-        //}
-        //else if (movement.y * 100 <= -1)
-        //{
-        //    // Set the Speed parameter in the "Movement" Blend Tree to 0.5.
-        //    animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
-        //}
-
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Front"))
+        {
+            Debug.Log("1");
+            transform.Translate(Vector3.up * upSpeed * 0.6f * Time.deltaTime);
+        }
         //Debug.Log($"X: {movement.x}, Y: {movement.y}, SP: {movement.sqrMagnitude}");
     }
 

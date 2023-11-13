@@ -74,7 +74,7 @@ public class VideoSync : MonoBehaviour
             // Adjust the position after rotation to maintain the same distance from the pivot point
             targetObject.position = cameraMiddlePoint + targetObject.rotation * pivotRelative;
 
-            Debug.Log($"Pos: {targetObject.position}, Rot: {targetObject.rotation}");
+            //Debug.Log($"Pos: {targetObject.position}, Rot: {targetObject.rotation}");
 
             // Display the current time on the UI
             if (currentTimeText != null)
