@@ -15,28 +15,20 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackDuration = 0.5f; // Duration of the knockback.
     public Animator animator;
 
-    //void Start()
-    //{
-    //    animator = GetComponent<Animator>();
-    //}
-
-    private void Update()
+    void Update()
     {
-        // Get input values for horizontal and vertical movement.
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         float horizontalSpeed = horizontalInput * (horizontalInput > 0 ? rightSpeed : leftSpeed);
         float verticalSpeed = verticalInput * (verticalInput > 0 ? upSpeed : downSpeed);
 
-        // Calculate the new position based on input and speed.
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0) * moveSpeed * Time.deltaTime;
+        Vector3 movement = new Vector3(horizontalSpeed, verticalSpeed, 0) * moveSpeed * Time.deltaTime;
 
-        // Apply the movement to the object's position.
         transform.Translate(movement);
 
-        animator.SetFloat("Horizontal", movement.x * 500);
-        animator.SetFloat("Vertical", movement.y * 500);
+        animator.SetFloat("Horizontal", horizontalSpeed * 500);
+        animator.SetFloat("Vertical", verticalSpeed * 500);
         animator.SetFloat("Speed", movement.sqrMagnitude * 100);
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Front"))
@@ -45,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+
     public void Knockback(Vector2 direction)
     {
         // Calculate the knockback force vector.
