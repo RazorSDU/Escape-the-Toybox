@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         //    animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
         //}
 
-        Debug.Log($"X: {movement.x}, Y: {movement.y}, SP: {movement.sqrMagnitude}");
+        //Debug.Log($"X: {movement.x}, Y: {movement.y}, SP: {movement.sqrMagnitude}");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

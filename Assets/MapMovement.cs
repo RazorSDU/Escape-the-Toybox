@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,12 +13,18 @@ public class VideoSync : MonoBehaviour
         public float time;
         public Vector3 position;
         public Quaternion rotation;
+
+        public void NormalizeRotation()
+        {
+            rotation.Normalize();
+        }
     }
 
     public Transform targetObject;
     public PositionRotationKeyframe[] keyframes;
     public VideoPlayer videoPlayer;
     public TextMeshProUGUI currentTimeText; // Reference to the Text component for displaying current time
+    public Camera mainCamera; // Reference to the main camera
 
     private int currentKeyframeIndex = 0;
 
@@ -51,11 +58,23 @@ public class VideoSync : MonoBehaviour
                 t
             );
 
-            targetObject.rotation = Quaternion.Slerp(
+            // Calculate the pivot point based on the middle of the camera's viewport
+            Vector3 cameraMiddlePoint = mainCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, mainCamera.nearClipPlane));
+            Vector3 pivotRelative = targetObject.position - cameraMiddlePoint;
+
+            keyframes[currentKeyframeIndex].NormalizeRotation();
+            keyframes[currentKeyframeIndex + 1].NormalizeRotation();
+
+            targetObject.rotation = Quaternion.SlerpUnclamped(
                 keyframes[currentKeyframeIndex].rotation,
                 keyframes[currentKeyframeIndex + 1].rotation,
                 t
             );
+
+            // Adjust the position after rotation to maintain the same distance from the pivot point
+            targetObject.position = cameraMiddlePoint + targetObject.rotation * pivotRelative;
+
+            Debug.Log($"Pos: {targetObject.position}, Rot: {targetObject.rotation}");
 
             // Display the current time on the UI
             if (currentTimeText != null)

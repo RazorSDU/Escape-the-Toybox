@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Video;
+using System.Collections;
 
 public class VideoController : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class VideoController : MonoBehaviour
         {
             SkipBackward();
         }
+
     }
     public void TogglePlayPause()
     {
@@ -46,6 +48,7 @@ public class VideoController : MonoBehaviour
         }
         isPaused = !isPaused;
     }
+
     public void SkipForward()
     {
         videoPlayer.time += 5f;
