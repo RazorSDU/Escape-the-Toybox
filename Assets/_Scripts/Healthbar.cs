@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine;
 
 public class Healthbar : MonoBehaviour
 {
+    public VideoPlayer videoPlayer;
     public int maxHealth = 3;
     private int currentHealth;
     public Text healthText;
@@ -15,6 +17,7 @@ public class Healthbar : MonoBehaviour
     public Canvas gameOverCanvas;
     public Button retryButton;
     public GameObject gameOverEmpty;
+    public Animator animator;
 
     public PlayerMovement playerMovement;
 
@@ -88,6 +91,9 @@ public class Healthbar : MonoBehaviour
             else if (currentHealth <= 0)
             {
                 currentHealth = 0;
+                videoPlayer.Pause();
+                animator.StopPlayback();
+                animator.SetBool("Dead", true);
                 healthText.color = Color.red;
                 handleImage.color = Color.red;
                 ShowGameOverScreen();

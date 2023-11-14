@@ -2,11 +2,17 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Video;
 using System.Collections;
+using UnityEngine.UI;
+using TMPro;
 
 public class VideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
     private bool isPaused = false;
+    private bool adminMode = false;
+    public Renderer adminMap;
+    public Button AdminBeatChecker;
+    public TextMeshProUGUI AdminTimer;
 
     void Start()
     {
@@ -15,29 +21,47 @@ public class VideoController : MonoBehaviour
         {
             videoPlayer = GetComponent<VideoPlayer>();
         }
+        adminMap.enabled = !adminMap.enabled;
+        AdminTimer.enabled = !AdminTimer.enabled;
+        AdminBeatChecker.gameObject.SetActive(!AdminBeatChecker.gameObject.activeSelf);
     }
 
     void Update()
     {
-     
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.O) && Input.GetKeyDown(KeyCode.O))
         {
-            TogglePlayPause();
+            ToggleAdminMode();
         }
-        // Check for input to skip forward
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (adminMode)
         {
-            SkipForward();
-        }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TogglePlayPause();
+            }
+            // Check for input to skip forward
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                SkipForward();
+            }
 
-        // Check for input to skip backward
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            SkipBackward();
+            // Check for input to skip backward
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                SkipBackward();
+            }
         }
 
     }
-    public void TogglePlayPause()
+
+    private void ToggleAdminMode()
+    {
+        adminMode = !adminMode;
+        adminMap.enabled = !adminMap.enabled;
+        AdminTimer.enabled = !AdminTimer.enabled;
+        AdminBeatChecker.gameObject.SetActive(!AdminBeatChecker.gameObject.activeSelf);
+    }
+
+    private void TogglePlayPause()
     {
         if (isPaused)
         {
@@ -49,12 +73,12 @@ public class VideoController : MonoBehaviour
         isPaused = !isPaused;
     }
 
-    public void SkipForward()
+    private void SkipForward()
     {
         videoPlayer.time += 5f;
     }
 
-    public void SkipBackward()
+    private void SkipBackward()
     {
         videoPlayer.time -= 5f;
     }
