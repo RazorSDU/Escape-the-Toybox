@@ -18,7 +18,8 @@ public class Healthbar : MonoBehaviour
     public Button retryButton;
     public GameObject gameOverEmpty;
     public Animator animator;
-
+    public GameObject VictoryEmpty;
+    public Canvas victoryCanvas;
     public PlayerMovement playerMovement;
 
     // Start is called before the first frame update
@@ -31,6 +32,10 @@ public class Healthbar : MonoBehaviour
         {
             gameOverEmpty.gameObject.SetActive(false);
         }
+        if (VictoryEmpty != null)
+        {
+            VictoryEmpty.gameObject.SetActive(false);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -39,18 +44,35 @@ public class Healthbar : MonoBehaviour
         {
             if (!playerMovement.isInvincible)
             {
+                // Deduct health when the player touches an object with the "Danger" layer
+                TakeDamage();
+
                 // Blinking effect
                 StartCoroutine(BlinkEffect());
 
-                // Does a knockback on the player
-                playerMovement.Knockback(collision.contacts[0].normal);
-
-                // Deduct health when the player touches an object with the "Danger" layer
-                TakeDamage();
+                if(currentHealth > 0) { 
+                    // Does a knockback on the player
+                    playerMovement.Knockback(collision.contacts[0].normal);
+                }
             }
+
+        }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Victory"))
+        {
+            ShowVictoryScreen();
+
         }
     }
-
+    public void ShowVictoryScreen()
+    {
+        //Show the Game Over Canvas
+        if (VictoryEmpty != null)
+        {
+            //Debug.Log("Game Over Screen Activated!");
+            VictoryEmpty.gameObject.SetActive(true);
+            playerMovement.DisableMovement();
+        }
+    }
     public void ShowGameOverScreen()
     {
         //Show the Game Over Canvas
@@ -105,6 +127,7 @@ public class Healthbar : MonoBehaviour
                 ShowGameOverScreen();
                 healthText.text = $"YOU ARE DEAD!";
                 playerMovement.DisableMovement();
+                playerMovement.invincibilityDuration = 0f;
             }
 
         }
@@ -132,7 +155,7 @@ public class Healthbar : MonoBehaviour
 
     IEnumerator Blink(SpriteRenderer spriteRenderer)
     {
-        while (true)
+        while (true && currentHealth > 0)
         {
             spriteRenderer.enabled = !spriteRenderer.enabled;
             yield return new WaitForSeconds(0.1f); // Adjust the blink speed as needed
