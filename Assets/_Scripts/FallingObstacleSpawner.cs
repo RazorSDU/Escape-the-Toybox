@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 
 public class FallingObstacleSpawner : MonoBehaviour
 {
+    public VideoPlayer videoPlayer;
     public GameObject fallingObstaclePrefab;
     public float moveSpeed = 10.0f;
     public GameObject player;
