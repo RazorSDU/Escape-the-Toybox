@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float rightSpeed = 2f;
     public float knockBackForce = 5f; //Force of the knockback.
     public float knockbackDuration = 0.5f; // Duration of the knockback.
+    public float invincibilityDuration = 2f; // Duration of invincibility.
+    public bool isInvincible = false;
     public Animator animator;
 
     void Update()
@@ -48,7 +50,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public IEnumerator ApplyKnockback(Vector2 knockbackVector)
-    {   
+    {
+        isInvincible = true;
+
         // Apply the knockback force to the player.
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         rb.velocity = knockbackVector;
@@ -58,6 +62,8 @@ public class PlayerMovement : MonoBehaviour
         // Reset the velocity to zero after the knockback duration
         rb.velocity = Vector2.zero;
 
+        yield return new WaitForSeconds(invincibilityDuration);
+        isInvincible = false;
     }
 
     public void DisableMovement()

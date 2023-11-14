@@ -37,11 +37,17 @@ public class Healthbar : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Danger"))
         {
-            // Does a knockback on the player
-            playerMovement.Knockback(collision.contacts[0].normal);
+            if (!playerMovement.isInvincible)
+            {
+                // Blinking effect
+                StartCoroutine(BlinkEffect());
 
-            // Deduct health when the player touches an object with the "Danger" layer
-            TakeDamage();
+                // Does a knockback on the player
+                playerMovement.Knockback(collision.contacts[0].normal);
+
+                // Deduct health when the player touches an object with the "Danger" layer
+                TakeDamage();
+            }
         }
     }
 
@@ -78,11 +84,11 @@ public class Healthbar : MonoBehaviour
 
             Image handleImage = healthSlider.handleRect.GetComponentInChildren<Image>();
 
-            if (currentHealth == 2) 
+            if (currentHealth == 2)
             {
                 healthText.color = Color.yellow;
                 handleImage.color = Color.yellow;
-            } 
+            }
             else if (currentHealth == 1)
             {
                 healthText.color = orange;
@@ -101,6 +107,35 @@ public class Healthbar : MonoBehaviour
                 playerMovement.DisableMovement();
             }
 
+        }
+    }
+
+    IEnumerator BlinkEffect()
+    {
+        playerMovement.isInvincible = true;
+
+        // Get the SpriteRenderer component
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Enable blinking for the invincibility duration
+        StartCoroutine(Blink(spriteRenderer));
+
+        // Wait for the invincibility duration
+        yield return new WaitForSeconds(playerMovement.invincibilityDuration);
+
+        // Disable blinking
+        StopAllCoroutines();
+        spriteRenderer.enabled = true;
+
+        playerMovement.isInvincible = false;
+    }
+
+    IEnumerator Blink(SpriteRenderer spriteRenderer)
+    {
+        while (true)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f); // Adjust the blink speed as needed
         }
     }
 }
