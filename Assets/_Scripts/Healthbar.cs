@@ -47,10 +47,10 @@ public class Healthbar : MonoBehaviour
                 // Deduct health when the player touches an object with the "Danger" layer
                 TakeDamage();
 
-                // Blinking effect
-                StartCoroutine(BlinkEffect());
+                if(currentHealth > 0) {
+                    // Blinking effect
+                    StartCoroutine(BlinkEffect());
 
-                if(currentHealth > 0) { 
                     // Does a knockback on the player
                     playerMovement.Knockback(collision.contacts[0].normal);
                 }
