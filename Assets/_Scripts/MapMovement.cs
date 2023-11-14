@@ -23,8 +23,11 @@ public class MapMovement : MonoBehaviour
     }
 
     float lastExecutionTime = 0.0f;
+    float beatCounter = 0;
+
 
     public FallingObstacleSpawner FOSpawner;
+    public DangerCylinders DC;
 
     public float BPM = 132f;
     public float FallBeatInterval = 4f;
@@ -103,10 +106,72 @@ public class MapMovement : MonoBehaviour
 
                 // Update the last execution time
                 lastExecutionTime = currentTime;
-
-                FOSpawner.SpawnFallingObstacle();
-
+                if (currentTime >= 14.5f)
+                {
+                    fallingObstacleLogic(currentTime);
+                }
             }
         }
+    }
+
+    private void fallingObstacleLogic(float currentTime)
+    {
+        beatCounter += 1;
+        //Debug.Log("BC: "+ beatCounter);
+        if (currentTime >= 14.5f && currentTime <= 43.0f && beatCounter >= 6) //Bed
+        {
+            //Debug.Log("1");
+            FOSpawner.SpawnFallingObstacle(15f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 43.0f && currentTime <= 66.5f && beatCounter >= 4) //Shelf
+        {
+            //Debug.Log("2");
+            FOSpawner.SpawnFallingObstacle(15f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 66.5f && currentTime <= 102f && beatCounter >= 2) //Table 1
+        {
+            //Debug.Log("3");
+            FOSpawner.SpawnFallingObstacle(15f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 102f && currentTime <= 129f && beatCounter >= 1) //Table 2
+        {
+            //Debug.Log("4");
+            FOSpawner.SpawnFallingObstacle(15f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 129f && currentTime <= 134.4f && beatCounter >= 1) //Stop
+        {
+            //Debug.Log("5");
+            beatCounter = 0;
+        }
+        if (currentTime >= 134.4f && currentTime <= 148f && beatCounter >= 1) //Floor 1
+        {
+            //Debug.Log("6");
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 148f && currentTime <= 160f && beatCounter >= 1) //Floor 2
+        {
+            //Debug.Log("7");
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            beatCounter = 0;
+        }
+        if (currentTime >= 160f && beatCounter >= 1) //Floor 3
+        {
+            //Debug.Log("8");
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            FOSpawner.SpawnFallingObstacle(20f);
+            beatCounter = 0;
+        }
+
     }
 }

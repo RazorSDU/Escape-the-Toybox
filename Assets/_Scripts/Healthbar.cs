@@ -73,6 +73,35 @@ public class Healthbar : MonoBehaviour
             playerMovement.DisableMovement();
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        HandleDangerousCollision(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        HandleDangerousCollision(other);
+    }
+
+    void HandleDangerousCollision(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Danger"))
+        {
+            if (!playerMovement.isInvincible)
+            {
+                // Blinking effect
+                StartCoroutine(BlinkEffect());
+
+                // Does a knockback on the player
+                playerMovement.Knockback((transform.position - other.transform.position).normalized);
+
+                // Deduct health when the player touches an object with the "Danger" layer
+                TakeDamage();
+            }
+        }
+    }
+
     public void ShowGameOverScreen()
     {
         //Show the Game Over Canvas
@@ -127,7 +156,7 @@ public class Healthbar : MonoBehaviour
                 ShowGameOverScreen();
                 healthText.text = $"YOU ARE DEAD!";
                 playerMovement.DisableMovement();
-                playerMovement.invincibilityDuration = 0f;
+                playerMovement.isInvincible = false;
             }
 
         }
