@@ -11,10 +11,17 @@ TagManager:
   - 
   - Water
   - UI
+<<<<<<< Updated upstream
   - 
   - 
   - 
   - 
+=======
+  - WallColliders
+  - Danger
+  - Player
+  - Victory
+>>>>>>> Stashed changes
   - 
   - 
   - 
