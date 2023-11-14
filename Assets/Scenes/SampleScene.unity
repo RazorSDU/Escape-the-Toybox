@@ -2867,6 +2867,7 @@ GameObject:
   m_Component:
   - component: {fileID: 642034515}
   - component: {fileID: 642034514}
+  - component: {fileID: 642034516}
   m_Layer: 0
   m_Name: RedLine
   m_TagString: Untagged
@@ -2916,7 +2917,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.29803923}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2941,6 +2942,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1005659053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &642034516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642034513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 907a66148d7981d4c83479f34fedddec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1332012131}
+  maxYDistance: 4
 --- !u!1 &694493722
 GameObject:
   m_ObjectHideFlags: 0
@@ -5364,6 +5379,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.3109198, y: 4.288184}
   m_EdgeRadius: 0
+<<<<<<< Updated upstream
+=======
+--- !u!114 &1332012138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332012131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8772e38e497cbd14ca4b38eaf8ea38cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1519401612}
+  maxHealth: 3
+  healthText: {fileID: 1988359878}
+  healthSlider: {fileID: 1290013086}
+  gameOverCanvas: {fileID: 1192360784}
+  retryButton: {fileID: 1765909263}
+  gameOverEmpty: {fileID: 1040896689}
+  animator: {fileID: 1332012136}
+  playerMovement: {fileID: 1332012132}
+>>>>>>> Stashed changes
 --- !u!1 &1346185231
 GameObject:
   m_ObjectHideFlags: 0
@@ -5739,6 +5778,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 1519401612}
+  adminMap: {fileID: 2031123335}
+  AdminBeatChecker: {fileID: 780822644}
+  AdminTimer: {fileID: 327393077}
 --- !u!1 &1543573123
 GameObject:
   m_ObjectHideFlags: 0

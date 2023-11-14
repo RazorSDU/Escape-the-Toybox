@@ -97,7 +97,7 @@ public class MapMovement : MonoBehaviour
             //Beat Checker
             if (Mathf.Abs(moduloValue) < epsilon && currentTime - lastExecutionTime > (5f / 11f))
             {
-                Debug.Log("Beat! " + currentTime);
+                //Debug.Log("Beat! " + currentTime);
                 Image image = beatChecker.GetComponent<Image>();
                 image.color = (image.color == Color.red) ? Color.green : Color.red;
 
