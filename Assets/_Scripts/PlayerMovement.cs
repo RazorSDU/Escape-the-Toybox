@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Front"))
         {
-            transform.Translate(Vector3.up * upSpeed * 0.6f * Time.deltaTime);
+            transform.Translate(Vector3.up * upSpeed * 0.0f * Time.deltaTime);
         }
     }
 
